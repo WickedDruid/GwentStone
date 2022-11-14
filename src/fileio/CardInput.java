@@ -1,5 +1,10 @@
 package fileio;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import java.util.ArrayList;
 
 public final class CardInput {
@@ -11,6 +16,21 @@ public final class CardInput {
     private String name;
 
     public CardInput() {
+    }
+
+    public ObjectNode getJson(ObjectMapper objectmapper) {
+        ObjectNode file = objectmapper.createObjectNode();
+        file.put("mana", this.mana);
+        file.put("damage", this.attackDamage);
+        file.put("heath", this.health);
+        file.put("description", this.description);
+        ArrayNode allColors = objectmapper.createArrayNode();
+        for(var i : getColors()) {
+            allColors.add(i);
+        }
+        file.set("colors", allColors);
+        file.put("name", this.name);
+        return file;
     }
 
     public int getMana() {
