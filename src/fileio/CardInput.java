@@ -22,7 +22,7 @@ public final class CardInput {
         String type = getType(card);
         ObjectNode file = objectmapper.createObjectNode();
         file.put("mana", this.mana);
-        if(type.equals("minion") || type.equals("special") || type.equals("tank")) {
+        if(type.contains("minion") || type.contains("special") || type.contains("tank")) {
             file.put("attackDamage", this.attackDamage);
             file.put("health", this.health);
         }
@@ -38,21 +38,21 @@ public final class CardInput {
     public String getType(CardInput card) {
         switch (card.name) {
             case "Sentinel":
-                return "minion";
+                return "minionback";
             case "Berserker":
-                return "minion";
+                return "minionback";
             case "Goliath":
-                return "tank";
+                return "tankfront";
             case "Warden":
-                return "tank";
+                return "tankfront";
             case "Miraj":
-                return "special";
+                return "specialfront";
             case "The Ripper":
-                return "special";
+                return "specialfront";
             case "Disciple":
-                return "special";
+                return "specialback";
             case "The Cursed One":
-                return "special";
+                return "specialback";
             case "Firestorm":
                 return "environment";
             case "Winterfell":

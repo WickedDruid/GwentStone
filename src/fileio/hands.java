@@ -9,10 +9,13 @@ public class hands {
         playerOneHand = new ArrayList<CardInput>();
         playerTwoHand = new ArrayList<CardInput>();
         playerOneHand.add(inputData.getPlayerOneDecks().getDecks().get(indexPlayerOne).get(0));
-        playerOneHand.add(inputData.getPlayerTwoDecks().getDecks().get(indexPlayerTwo).get(0));
+        playerTwoHand.add(inputData.getPlayerTwoDecks().getDecks().get(indexPlayerTwo).get(0));
     }
     public void addPlayerOneHand(CardInput card) {
         playerOneHand.add(card);
+    }
+    public void addPlayerTwoHand(CardInput card) {
+        playerTwoHand.add(card);
     }
     public void setPlayerOneHand(ArrayList<CardInput> playerOneHand) {
         this.playerOneHand = playerOneHand;
