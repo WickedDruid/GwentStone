@@ -15,6 +15,8 @@ public final class CardInput {
     private ArrayList<String> colors;
     private String name;
 
+    private boolean frozen = false;
+
     public CardInput() {
     }
 
@@ -110,6 +112,14 @@ public final class CardInput {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public boolean isFrozen() {
+        return frozen;
+    }
+
+    public void setFrozen(boolean frozen) {
+        this.frozen = frozen;
     }
 
     @Override

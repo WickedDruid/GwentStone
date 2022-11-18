@@ -25,6 +25,8 @@ public class GamePlayer {
             board currentBoard = new board();
             int manaPlayerOne = 1, manaPlayerTwo = 1;
             int increment = 2;
+            int handIdx;
+            CardInput card;
             int turn = index.getStartGame().getStartingPlayer() + 2;
             int playerOneIdx = index.getStartGame().getPlayerOneDeckIdx();
             int playerTwoIdx = index.getStartGame().getPlayerTwoDeckIdx();
@@ -37,6 +39,8 @@ public class GamePlayer {
             inputData.getPlayerTwoDecks().getDecks().get(playerTwoIdx).remove(0);
             ObjectNode outputInterior = objectMapper.createObjectNode();
             for(var command : index.getActions()) {
+                currentBoard.checkKilled();
+                currentBoard.unfreeze();
                 switch (command.getCommand()) {
                     case "getPlayerDeck":
                         outputInterior = objectMapper.createObjectNode();
@@ -114,8 +118,7 @@ public class GamePlayer {
                         turn++;
                         break;
                     case "placeCard":
-                        int handIdx = command.getHandIdx();
-                        CardInput card;
+                        handIdx = command.getHandIdx();
                         if(turn % 2 == 0) {
                             if (handIdx < currentHands.getPlayerTwoHand().size())
                                 card = currentHands.getPlayerTwoHand().get(handIdx);
@@ -141,7 +144,6 @@ public class GamePlayer {
                             if(available == null)
                                 available = currentBoard.checkAvailabilty(2, card);
                             if(available == null) {
-                                System.out.println(card.getMana() + " " + manaPlayerTwo);
                                 manaPlayerTwo -= card.getMana();
                                 currentBoard.boardAdd(2, card);
                                 currentHands.playerTwoHand.remove(card);
@@ -159,7 +161,6 @@ public class GamePlayer {
                             if(available == null) {
                                 currentBoard.boardAdd(1, card);
                                 manaPlayerOne -= card.getMana();
-                                System.out.println(card.getMana() + " " + manaPlayerOne);
                                 currentHands.playerOneHand.remove(card);
                             } else {
                                 outputInterior.put("error", available);
@@ -201,6 +202,162 @@ public class GamePlayer {
                             outputArray = objectMapper.createArrayNode();
                         }
                         outputInterior.put("output", exteriorArray);
+                        output.add(outputInterior);
+                        break;
+                    case "getCardAtPosition":
+                        ObjectNode desiredCard = objectMapper.createObjectNode();
+                        int x = command.getX();
+                        int y = command.getY();
+                        outputInterior = objectMapper.createObjectNode();
+                        outputInterior.put("command", command.getCommand());
+                        outputInterior.put("x", x);
+                        outputInterior.put("y", y);
+                        desiredCard = currentBoard.getPosition(x, y, objectMapper);
+                        if(desiredCard == null)
+                            outputInterior.put("output", "No card available at that position.");
+                        else
+                            outputInterior.put("output", desiredCard);
+                        output.add(outputInterior);
+                        break;
+                    case "getEnvironmentCardsInHand":
+                        outputInterior = objectMapper.createObjectNode();
+                        ArrayNode cardsArray = objectMapper.createArrayNode();
+                        outputInterior.put("command", command.getCommand());
+                        outputInterior.put("playerIdx", command.getPlayerIdx());
+                        ArrayList<CardInput> playerCards;
+                        if(command.getPlayerIdx() == 2)
+                            playerCards = currentHands.getPlayerTwoHand();
+                        else
+                            playerCards = currentHands.getPlayerOneHand();
+                        for(var env : playerCards) {
+                            if(env.getType(env).contains("environment"))
+                                cardsArray.add(env.getJson(objectMapper, env));
+                        }
+                        outputInterior.put("output", cardsArray);
+                        output.add(outputInterior);
+                        break;
+                    case "useEnvironmentCard":
+                        handIdx = command.getHandIdx();
+                        int row = command.getAffectedRow();
+                        String error = "Cannot steal enemy card since the player's row is full.";
+                        String error2 = "Cannot steal enemy card since the player's row is full.";
+                        outputInterior = objectMapper.createObjectNode();
+                        if(turn % 2 == 0) {
+                            if (handIdx >= currentHands.playerTwoHand.size())
+                                break;
+                            card = currentHands.playerTwoHand.get(handIdx);
+
+                            if(!card.getType(card).contains("environment")) {
+                                outputInterior.put("affectedRow", row);
+                                outputInterior.put("command", command.getCommand());
+                                outputInterior.put("error", "Chosen card is not of type environment.");
+                                outputInterior.put("handIdx", handIdx);
+                                output.add(outputInterior);
+                                break;
+                            } else if(card.getMana() > manaPlayerTwo) {
+                                outputInterior.put("affectedRow", row);
+                                outputInterior.put("command", command.getCommand());
+                                outputInterior.put("error", "Not enough mana to use environment card.");
+                                outputInterior.put("handIdx", handIdx);
+                                output.add(outputInterior);
+                                break;
+                            } else if(row == 0 || row == 1) {
+                                outputInterior.put("affectedRow", row);
+                                outputInterior.put("command", command.getCommand());
+                                outputInterior.put("error", "Chosen row does not belong to the enemy.");
+                                outputInterior.put("handIdx", handIdx);
+                                output.add(outputInterior);
+                                break;
+                            } else {
+                                switch (card.getName()) {
+                                    case "Firestorm":
+                                        currentBoard.playFirestorm(row);
+                                        manaPlayerTwo -= card.getMana();
+                                        currentHands.getPlayerTwoHand().remove(card);
+                                        break;
+                                    case "Winterfell":
+                                        currentBoard.playWinterfell(row);
+                                        manaPlayerTwo -= card.getMana();
+                                        currentHands.getPlayerTwoHand().remove(card);
+                                        break;
+                                    case "Heart Hound":
+                                        if(currentBoard.getPlayedCards()[0].size() > 4 && row == 3 ||
+                                                currentBoard.getPlayedCards()[1].size() > 4 && row == 2) {
+                                            outputInterior.put("affectedRow", row);
+                                            outputInterior.put("command", command.getCommand());
+                                            outputInterior.put("error", error);
+                                            outputInterior.put("handIdx", handIdx);
+                                            output.add(outputInterior);
+                                            break;
+                                        }
+                                        manaPlayerTwo -= card.getMana();
+                                        currentHands.getPlayerTwoHand().remove(card);
+                                        currentBoard.playHeartHound(row);
+                                        break;
+                                }
+                            }
+                        } else {
+                            if(handIdx >= currentHands.playerOneHand.size())
+                                break;
+                            card = currentHands.playerOneHand.get(handIdx);
+                            if(!card.getType(card).contains("environment")) {
+                                outputInterior.put("affectedRow", row);
+                                outputInterior.put("command", command.getCommand());
+                                outputInterior.put("error", "Chosen card is not of type environment.");
+                                outputInterior.put("handIdx", handIdx);
+                                output.add(outputInterior);
+                                break;
+                            } else if(card.getMana() > manaPlayerOne) {
+                                outputInterior.put("affectedRow", row);
+                                outputInterior.put("command", command.getCommand());
+                                outputInterior.put("error", "Not enough mana to use environment card.");
+                                outputInterior.put("handIdx", handIdx);
+                                output.add(outputInterior);
+                                break;
+                            } else if(row == 2 || row == 3) {
+                                outputInterior.put("affectedRow", row);
+                                outputInterior.put("command", command.getCommand());
+                                outputInterior.put("error", "Chosen row does not belong to the enemy.");
+                                outputInterior.put("handIdx", handIdx);
+                                output.add(outputInterior);
+                                break;
+                            } else {
+                                switch (card.getName()) {
+                                    case "Firestorm":
+                                        currentBoard.playFirestorm(row);
+                                        manaPlayerOne -= card.getMana();
+                                        currentHands.getPlayerOneHand().remove(card);
+                                        break;
+                                    case "Winterfell":
+                                        currentBoard.playWinterfell(row);
+                                        manaPlayerOne -= card.getMana();
+                                        currentHands.getPlayerOneHand().remove(card);
+                                        break;
+                                    case "Heart Hound":
+                                        if(currentBoard.getPlayedCards()[3].size() > 4 && row == 0 ||
+                                                currentBoard.getPlayedCards()[2].size() > 4 && row == 1) {
+                                            outputInterior.put("affectedRow", row);
+                                            outputInterior.put("command", command.getCommand());
+                                            outputInterior.put("error", error);
+                                            outputInterior.put("handIdx", handIdx);
+                                            output.add(outputInterior);
+                                            break;
+                                        }
+                                        currentBoard.playHeartHound(row);
+                                        manaPlayerOne -= card.getMana();
+                                        currentHands.getPlayerOneHand().remove(card);
+                                        break;
+                                }
+                            }
+                        }
+                        break;
+                    case "getFrozenCardsOnTable":
+                        outputInterior = objectMapper.createObjectNode();
+                        outputInterior.put("command", command.getCommand());
+                        ArrayNode frozenArray = objectMapper.createArrayNode();
+                        for(var i : currentBoard.getFrozenCards())
+                            frozenArray.add(i.getJson(objectMapper, i));
+                        outputInterior.put("output", frozenArray);
                         output.add(outputInterior);
                         break;
                     default:
