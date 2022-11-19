@@ -54,11 +54,11 @@
   }
 }, {
   "command" : "getPlayerMana",
-  "output" : 18,
+  "output" : 22,
   "playerIdx" : 2
 }, {
   "command" : "getPlayerMana",
-  "output" : 13,
+  "output" : 21,
   "playerIdx" : 1
 }, {
   "command" : "getCardsOnTable",
@@ -97,7 +97,14 @@
     "description" : "Standard card: Trained by the best, nothing will catch him off-guard.",
     "colors" : [ "Black", "Grey", "Blue" ],
     "name" : "Sentinel"
-  } ], [ ], [ {
+  } ], [ {
+    "mana" : 4,
+    "attackDamage" : 6,
+    "health" : 3,
+    "description" : "Standard card: Death incarnate. No better time to die than now.",
+    "colors" : [ "Orange", "Red", "Black" ],
+    "name" : "The Ripper"
+  } ], [ {
     "mana" : 4,
     "attackDamage" : 1,
     "health" : 8,
@@ -148,13 +155,6 @@
     "description" : "Standard card: The dragon was unleashed, run for your lives.",
     "colors" : [ "Red", "Yellow" ],
     "name" : "Firestorm"
-  }, {
-    "mana" : 4,
-    "attackDamage" : 6,
-    "health" : 3,
-    "description" : "Standard card: Death incarnate. No better time to die than now.",
-    "colors" : [ "Orange", "Red", "Black" ],
-    "name" : "The Ripper"
   } ]
 }, {
   "command" : "getCardsInHand",

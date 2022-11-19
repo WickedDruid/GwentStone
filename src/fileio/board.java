@@ -26,6 +26,13 @@ public class board {
                 playedCards[0].add(card);
         }
     }
+    public void clearUsed() {
+        for(var i : playedCards) {
+            for(var j : i) {
+                j.setUsed(false);
+            }
+        }
+    }
     public void playFirestorm(int row) {
         for(var i : playedCards[row])
             i.setHealth(i.getHealth() - 1);
@@ -34,13 +41,17 @@ public class board {
         for(var i : playedCards[row]) {
             frozenCards.add(i);
             i.setFrozen(true);
+            i.setTimeFrozen(2);
         }
     }
     public void unfreeze() {
-        for(var i : frozenCards) {
-            i.setFrozen(false);
+        for(int i = 0; i < frozenCards.size(); i++) {
+            if(frozenCards.get(i).getTimeFrozen() == 0) {
+                frozenCards.get(i).setFrozen(false);
+                frozenCards.remove(i);
+            } else
+                frozenCards.get(i).setTimeFrozen(frozenCards.get(i).getTimeFrozen() - 1);
         }
-        this.frozenCards = new ArrayList<>();
     }
     public void playHeartHound(int row) {
         if(playedCards[row].size() < 1)
@@ -67,8 +78,11 @@ public class board {
         for(int i = 0; i < 4; i++) {
             if(playedCards[i].size() > 0)
                 for(int j = 0; j < playedCards[i].size(); j++) {
-                    if (playedCards[i].get(j).getHealth() < 1)
+                    if (playedCards[i].get(j).getHealth() < 1) {
+                        if(frozenCards.contains(j))
+                            frozenCards.remove(j);
                         playedCards[i].remove(j);
+                    }
                 }
         }
     }
@@ -78,6 +92,22 @@ public class board {
             return card.getJson(objectMapper, card);
         } else
             return null;
+    }
+    public boolean checkTank(int targetX, CardInput target) {
+        if(targetX < 2) {
+            if(!target.getType(target).contains("tank"))
+                for(var j : playedCards[1]) {
+                    if(j.getType(j).contains("tank"))
+                        return false;
+                }
+        } else {
+            if(!target.getType(target).contains("tank"))
+                for(var j : playedCards[2]) {
+                    if (j.getType(j).contains("tank"))
+                        return false;
+                }
+        }
+        return true;
     }
     public String checkAvailabilty(int playerIdx, CardInput card) {
         String type = card.getType(card);

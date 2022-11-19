@@ -39,7 +39,7 @@
   "output" : [ [ ], [ {
     "mana" : 2,
     "attackDamage" : 2,
-    "health" : 6,
+    "health" : 1,
     "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
     "colors" : [ "Black", "White", "Green" ],
     "name" : "Warden"
@@ -53,7 +53,7 @@
   } ], [ {
     "mana" : 2,
     "attackDamage" : 0,
-    "health" : 3,
+    "health" : 1,
     "description" : "Premium card: Nobody suspects an outcast, not even the Gods.",
     "colors" : [ "Black", "White", "Red" ],
     "name" : "The Cursed One"
@@ -80,13 +80,6 @@
     "description" : "Standard card: A warrior who is never afraid of battle, no matter the costs",
     "colors" : [ "Brown", "Black", "Grey" ],
     "name" : "Goliath"
-  }, {
-    "mana" : 1,
-    "attackDamage" : 1,
-    "health" : 2,
-    "description" : "Standard card: Trained by the best, nothing will catch him off-guard.",
-    "colors" : [ "Black", "Grey", "Blue" ],
-    "name" : "Sentinel"
   } ]
 }, {
   "command" : "getCardsInHand",
@@ -96,6 +89,13 @@
   "command" : "getPlayerDeck",
   "playerIdx" : 2,
   "output" : [ {
+    "mana" : 1,
+    "attackDamage" : 1,
+    "health" : 2,
+    "description" : "Standard card: Trained by the best, nothing will catch him off-guard.",
+    "colors" : [ "Black", "Grey", "Blue" ],
+    "name" : "Sentinel"
+  }, {
     "mana" : 4,
     "attackDamage" : 5,
     "health" : 4,

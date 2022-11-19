@@ -10,6 +10,15 @@ public final class DecksInput {
     public DecksInput() {
     }
 
+    public void clearCards() {
+        for(var i : decks) {
+            for(var j : i) {
+                j.setUsed(false);
+                j.setPlayed(false);
+                j.setFrozen(false);
+            }
+        }
+    }
     public int getNrCardsInDeck() {
         return nrCardsInDeck;
     }

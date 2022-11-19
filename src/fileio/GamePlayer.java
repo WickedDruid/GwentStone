@@ -26,7 +26,15 @@ public class GamePlayer {
             int manaPlayerOne = 1, manaPlayerTwo = 1;
             int increment = 2;
             int handIdx;
-            CardInput card;
+            int xdef, ydef, xatt, yatt;
+            CardInput card, target, playerOneHero, playerTwoHero;
+            int belongsAtt, belongsDef;
+            ObjectNode values;
+            boolean gameEnded = false;
+            playerOneHero = index.getStartGame().getPlayerOneHero();
+            playerTwoHero = index.getStartGame().getPlayerTwoHero();
+            playerOneHero.setHealth(30);
+            playerTwoHero.setHealth(30);
             int turn = index.getStartGame().getStartingPlayer() + 2;
             int playerOneIdx = index.getStartGame().getPlayerOneDeckIdx();
             int playerTwoIdx = index.getStartGame().getPlayerTwoDeckIdx();
@@ -34,13 +42,14 @@ public class GamePlayer {
             Collections.shuffle(inputData.getPlayerOneDecks().getDecks().get(playerOneIdx), rand);
             rand = new Random(index.getStartGame().getShuffleSeed());
             Collections.shuffle(inputData.getPlayerTwoDecks().getDecks().get(playerTwoIdx), rand);
+            inputData.getPlayerOneDecks().clearCards();
+            inputData.getPlayerTwoDecks().clearCards();
             hands currentHands = new hands(inputData, playerOneIdx, playerTwoIdx);
             inputData.getPlayerOneDecks().getDecks().get(playerOneIdx).remove(0);
             inputData.getPlayerTwoDecks().getDecks().get(playerTwoIdx).remove(0);
             ObjectNode outputInterior = objectMapper.createObjectNode();
             for(var command : index.getActions()) {
                 currentBoard.checkKilled();
-                currentBoard.unfreeze();
                 switch (command.getCommand()) {
                     case "getPlayerDeck":
                         outputInterior = objectMapper.createObjectNode();
@@ -52,7 +61,8 @@ public class GamePlayer {
                             currentDeck = inputData.getPlayerTwoDecks().getDecks().get(playerTwoIdx);
                         }
                         for (var i : currentDeck) {
-                            deckJson.add(i.getJson(objectMapper, i));
+                            if(!i.isPlayed())
+                                deckJson.add(i.getJson(objectMapper, i));
                         }
                         outputInterior.put("command", command.getCommand());
                         outputInterior.put("playerIdx", command.getPlayerIdx());
@@ -64,11 +74,11 @@ public class GamePlayer {
                         outputInterior.put("command", command.getCommand());
                         outputInterior.put("playerIdx", command.getPlayerIdx());
                         if (command.getPlayerIdx() == 1) {
-                            ObjectNode playerOneHero = index.getStartGame().getPlayerOneHero().getJson(objectMapper, index.getStartGame().getPlayerOneHero());
-                            outputInterior.put("output", playerOneHero);
+                            ObjectNode playerOneHeroJson = playerOneHero.getJson(objectMapper, playerOneHero);
+                            outputInterior.put("output", playerOneHeroJson);
                         } else {
-                            ObjectNode playerTwoHero = index.getStartGame().getPlayerTwoHero().getJson(objectMapper, index.getStartGame().getPlayerTwoHero());
-                            outputInterior.put("output", playerTwoHero);
+                            ObjectNode playerTwoHeroJson = playerTwoHero.getJson(objectMapper, playerTwoHero);
+                            outputInterior.put("output", playerTwoHeroJson);
                         }
                         output.add(outputInterior);
                         break;
@@ -93,27 +103,35 @@ public class GamePlayer {
                         output.add(outputInterior);
                         break;
                     case "endPlayerTurn":
-                        //TODO remove frozen cards that were frozen;
-                        if(turn % 2 == 0) {
-                            ArrayList<CardInput> playerOneDeck;
-                            playerOneDeck = inputData.getPlayerOneDecks().getDecks().get(playerOneIdx);
-                            if(playerOneDeck.size() == 0)
-                                break;
-                            currentHands.addPlayerOneHand(playerOneDeck.get(0));
-                            inputData.getPlayerOneDecks().getDecks().get(playerOneIdx).remove(0);
-                        } else {
-                            ArrayList<CardInput> playerTwoDeck;
-                            playerTwoDeck = inputData.getPlayerTwoDecks().getDecks().get(playerTwoIdx);
-                            if(playerTwoDeck.size() == 0)
-                                break;
-                            currentHands.addPlayerTwoHand(playerTwoDeck.get(0));
-                            inputData.getPlayerTwoDecks().getDecks().get(playerTwoIdx).remove(0);
-                        }
+                        currentBoard.unfreeze();
                         if(turn % 2 != (index.getStartGame().getStartingPlayer() % 2)) {
+                            currentBoard.clearUsed();
                             manaPlayerOne += increment;
                             manaPlayerTwo += increment;
                             if(increment < 10)
                                 increment++;
+                            ArrayList<CardInput> playerOneDeck;
+                            playerOneDeck = inputData.getPlayerOneDecks().getDecks().get(playerOneIdx);
+                            if(playerOneDeck.size() == 0)
+                                break;
+                            for(var k : inputData.getPlayerOneDecks().getDecks().get(playerOneIdx)) {
+                                if (!k.isPlayed()) {
+                                    currentHands.addPlayerOneHand(k);
+                                    k.setPlayed(true);
+                                    break;
+                                }
+                            }
+                            ArrayList<CardInput> playerTwoDeck;
+                            playerTwoDeck = inputData.getPlayerTwoDecks().getDecks().get(playerTwoIdx);
+                            if(playerTwoDeck.size() == 0)
+                                break;
+                            for(var k : inputData.getPlayerTwoDecks().getDecks().get(playerTwoIdx)) {
+                                if (!k.isPlayed()) {
+                                    currentHands.addPlayerTwoHand(k);
+                                    k.setPlayed(true);
+                                    break;
+                                }
+                            }
                         }
                         turn++;
                         break;
@@ -296,6 +314,7 @@ public class GamePlayer {
                                         break;
                                 }
                             }
+                            break;
                         } else {
                             if(handIdx >= currentHands.playerOneHand.size())
                                 break;
@@ -360,8 +379,227 @@ public class GamePlayer {
                         outputInterior.put("output", frozenArray);
                         output.add(outputInterior);
                         break;
+                    case "cardUsesAttack":
+                        xdef = command.getCardAttacked().getX();
+                        ydef = command.getCardAttacked().getY();
+                        xatt = command.getCardAttacker().getX();
+                        yatt = command.getCardAttacker().getY();
+                        if(currentBoard.getPlayedCards()[xatt].size() <= yatt)
+                            break;
+                        if(currentBoard.getPlayedCards()[xdef].size() <= ydef)
+                            break;
+                        card = currentBoard.getPlayedCards()[xatt].get(yatt);
+                        target = currentBoard.getPlayedCards()[xdef].get(ydef);
+                        outputInterior = objectMapper.createObjectNode();
+                        values = objectMapper.createObjectNode();
+                        outputInterior.put("command", command.getCommand());
+                        values.put("x", xatt);
+                        values.put("y", yatt);
+                        outputInterior.put("cardAttacker", values);
+                        values = objectMapper.createObjectNode();
+                        values.put("x", command.getCardAttacked().getX());
+                        values.put("y", command.getCardAttacked().getY());
+                        outputInterior.put("cardAttacked", values);
+                        if(turn % 2 == 0) {
+                            if(command.getCardAttacked().getX() == 0 || command.getCardAttacked().getX() == 1) {
+                                outputInterior.put("error",
+                                        "Attacked card does not belong to the enemy.");
+                                output.add(outputInterior);
+                                break;
+                            } else if(card.isUsed()) {
+                                outputInterior.put("error",
+                                        "Attacker card has already attacked this turn.");
+                                output.add(outputInterior);
+                                break;
+                            } else if(currentBoard.getFrozenCards().contains(card)) {
+                                outputInterior.put("error",
+                                        "Attacker card is frozen.");
+                                output.add(outputInterior);
+                                break;
+                            } else if(!currentBoard.checkTank(xdef, target)) {
+                                outputInterior.put("error",
+                                    "Attacked card is not of type 'Tank'.");
+                                output.add(outputInterior);
+                                break;
+                            } else {
+                                target.setHealth(target.getHealth() - card.getAttackDamage());
+                                card.setUsed(true);
+                            }
+                        } else {
+                            if(command.getCardAttacked().getX() == 2 || command.getCardAttacked().getX() == 3) {
+                                outputInterior.put("error",
+                                        "Attacked card does not belong to the enemy.");
+                                output.add(outputInterior);
+                                break;
+                            } else if(card.isUsed()) {
+                                outputInterior.put("error",
+                                        "Attacker card has already attacked this turn.");
+                                output.add(outputInterior);
+                                break;
+                            } else if(currentBoard.getFrozenCards().contains(card)) {
+                                outputInterior.put("error",
+                                        "Attacker card is frozen.");
+                                output.add(outputInterior);
+                                break;
+                            } else if(!currentBoard.checkTank(xdef, target)) {
+                                outputInterior.put("error",
+                                        "Attacked card is not of type 'Tank'.");
+                                output.add(outputInterior);
+                                break;
+                            } else {
+                                target.setHealth(target.getHealth() - card.getAttackDamage());
+                                card.setUsed(true);
+                            }
+                        }
+                        break;
+                    case "cardUsesAbility":
+                        xdef = command.getCardAttacked().getX();
+                        ydef = command.getCardAttacked().getY();
+                        xatt = command.getCardAttacker().getX();
+                        yatt = command.getCardAttacker().getY();
+                        int extra;
+                        if(currentBoard.getPlayedCards()[xatt].size() <= yatt)
+                            break;
+                        if(currentBoard.getPlayedCards()[xdef].size() <= ydef)
+                            break;
+                        card = currentBoard.getPlayedCards()[xatt].get(yatt);
+                        target = currentBoard.getPlayedCards()[xdef].get(ydef);
+                        outputInterior = objectMapper.createObjectNode();
+                        values = objectMapper.createObjectNode();
+                        outputInterior.put("command", command.getCommand());
+                        values.put("x", xatt);
+                        values.put("y", yatt);
+                        outputInterior.put("cardAttacker", values);
+                        values = objectMapper.createObjectNode();
+                        values.put("x", command.getCardAttacked().getX());
+                        values.put("y", command.getCardAttacked().getY());
+                        outputInterior.put("cardAttacked", values);
+                        if(xdef == 0 || xdef == 1)
+                            belongsDef = 2;
+                        else
+                            belongsDef = 1;
+                        if(xatt == 0 || xatt == 1)
+                            belongsAtt = 2;
+                        else
+                            belongsAtt = 1;
+                        if(card.isFrozen()) {
+                            outputInterior.put("error",
+                                    "Attacker card is frozen.");
+                            output.add(outputInterior);
+                            break;
+                        } else if(card.isUsed()) {
+                            outputInterior.put("error",
+                                    "Attacker card has already attacked this turn.");
+                            output.add(outputInterior);
+                            break;
+                        }else {
+                            if(card.getName().equals("Disciple")) {
+                                if (belongsDef != belongsAtt) {
+                                outputInterior.put("error",
+                                        "Attacked card does not belong to the current player.");
+                                output.add(outputInterior);
+                                break;
+                                }
+                            }
+                            else {
+                                if(belongsDef == belongsAtt) {
+                                    outputInterior.put("error",
+                                            "Attacked card does not belong to the enemy.");
+                                    output.add(outputInterior);
+                                    break;
+                                }
+                            }
+                        }
+                        if(!currentBoard.checkTank(xdef, target)) {
+                            outputInterior.put("error",
+                                    "Attacked card is not of type 'Tank'.");
+                            output.add(outputInterior);
+                            break;
+                        }
+                        card.setUsed(true);
+                        switch (card.getName()) {
+                            case "The Ripper":
+                                target.setAttackDamage(target.getAttackDamage() - 2);
+                                if(target.getAttackDamage() < 0)
+                                    target.setAttackDamage(0);
+                                break;
+                            case "Miraj":
+                                extra = card.getHealth();
+                                card.setHealth(target.getHealth());
+                                target.setHealth(extra);
+                                break;
+                            case "The Cursed One":
+                                extra = target.getHealth();
+                                target.setHealth(target.getAttackDamage());
+                                target.setAttackDamage(extra);
+                                break;
+                            case "Disciple":
+                                target.setHealth(target.getHealth() + 2);
+                                break;
+                        }
+                        break;
+                    case "useAttackHero":
+                        outputInterior = objectMapper.createObjectNode();
+                        xatt = command.getCardAttacker().getX();
+                        yatt = command.getCardAttacker().getY();
+                        if(currentBoard.getPlayedCards()[xatt].size() <= yatt)
+                            break;
+                        card = currentBoard.getPlayedCards()[xatt].get(yatt);
+                        outputInterior.put("command", command.getCommand());
+                        values = objectMapper.createObjectNode();
+                        values.put("x", xatt);
+                        values.put("y", yatt);
+                        outputInterior.put("cardAttacker", values);
+                        if(xatt == 0 || xatt == 1)
+                            belongsAtt = 2;
+                        else
+                            belongsAtt = 1;
+                        if(card.isFrozen()) {
+                            outputInterior.put("error", "Attacker card is frozen.");
+                            output.add(outputInterior);
+                            break;
+                        } else if(card.isUsed()) {
+                            outputInterior.put("error",
+                                    "Attacker card has already attacked this turn.");
+                            output.add(outputInterior);
+                            break;
+                        } else {
+                            if(belongsAtt == 2) {
+                                if(!currentBoard.checkTank(2, playerOneHero)) {
+                                    outputInterior.put("error",
+                                            "Attacked card is not of type 'Tank'.");
+                                    output.add(outputInterior);
+                                    break;
+                                }
+                            } else {
+                                if (!currentBoard.checkTank(1, playerTwoHero)) {
+                                    outputInterior.put("error",
+                                            "Attacked card is not of type 'Tank'.");
+                                    output.add(outputInterior);
+                                    break;
+                                }
+                            }
+                        }
+                        card.setUsed(true);
+                        if(belongsAtt == 1) {
+                            playerTwoHero.setHealth(playerTwoHero.getHealth() - card.getAttackDamage());
+                        } else {
+                            playerOneHero.setHealth(playerOneHero.getHealth() - card.getAttackDamage());
+                        }
+                        break;
                     default:
                         break;
+                }
+                if(playerOneHero.getHealth() < 1 && !gameEnded) {
+                    outputInterior = objectMapper.createObjectNode();
+                    outputInterior.put("gameEnded", "Player two killed the enemy hero.");
+                    output.add(outputInterior);
+                    gameEnded = true;
+                } else if(playerTwoHero.getHealth() < 1 && !gameEnded){
+                    outputInterior = objectMapper.createObjectNode();
+                    outputInterior.put("gameEnded", "Player one killed the enemy hero.");
+                    output.add(outputInterior);
+                    gameEnded = true;
                 }
             }
         }

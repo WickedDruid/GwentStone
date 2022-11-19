@@ -58,7 +58,7 @@
   "playerIdx" : 2
 }, {
   "command" : "getPlayerMana",
-  "output" : 8,
+  "output" : 16,
   "playerIdx" : 1
 }, {
   "command" : "getCardsOnTable",
@@ -90,6 +90,20 @@
     "description" : "Premium card: Insanity is always an option, now it is an absolute.",
     "colors" : [ "Red", "Black" ],
     "name" : "Miraj"
+  }, {
+    "mana" : 4,
+    "attackDamage" : 6,
+    "health" : 4,
+    "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
+    "colors" : [ "Orange", "Red", "Black" ],
+    "name" : "The Ripper"
+  }, {
+    "mana" : 4,
+    "attackDamage" : 6,
+    "health" : 4,
+    "description" : "Standard card: Death incarnate. No better time to die than now.",
+    "colors" : [ "Orange", "Red", "Black" ],
+    "name" : "The Ripper"
   } ], [ {
     "mana" : 2,
     "attackDamage" : 2,
@@ -141,20 +155,6 @@
     "description" : "Premium card: All is white. My mouth is frozen and I must scream.",
     "colors" : [ "White", "Blue" ],
     "name" : "Winterfell"
-  }, {
-    "mana" : 4,
-    "attackDamage" : 6,
-    "health" : 4,
-    "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
-    "colors" : [ "Orange", "Red", "Black" ],
-    "name" : "The Ripper"
-  }, {
-    "mana" : 4,
-    "attackDamage" : 6,
-    "health" : 4,
-    "description" : "Standard card: Death incarnate. No better time to die than now.",
-    "colors" : [ "Orange", "Red", "Black" ],
-    "name" : "The Ripper"
   } ]
 }, {
   "command" : "getCardsInHand",

@@ -14,8 +14,11 @@ public final class CardInput {
     private String description;
     private ArrayList<String> colors;
     private String name;
+    private int timeFrozen = 0;
 
     private boolean frozen = false;
+    private boolean used = false;
+    private boolean played = false;
 
     public CardInput() {
     }
@@ -32,7 +35,6 @@ public final class CardInput {
         file.putPOJO("colors", this.colors);
         file.put("name", this.name);
         if(type.equals("hero")) {
-            card.setHealth(30);
             file.put("health", this.health);
         }
         return file;
@@ -120,6 +122,30 @@ public final class CardInput {
 
     public void setFrozen(boolean frozen) {
         this.frozen = frozen;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public boolean isPlayed() {
+        return played;
+    }
+
+    public void setPlayed(boolean played) {
+        this.played = played;
+    }
+
+    public int getTimeFrozen() {
+        return timeFrozen;
+    }
+
+    public void setTimeFrozen(int timeFrozen) {
+        this.timeFrozen = timeFrozen;
     }
 
     @Override
