@@ -26,6 +26,7 @@ public class GamePlayer {
             int manaPlayerOne = 1, manaPlayerTwo = 1;
             int increment = 2;
             int handIdx;
+            int row;
             int xdef, ydef, xatt, yatt;
             CardInput card, target, playerOneHero, playerTwoHero;
             int belongsAtt, belongsDef;
@@ -106,6 +107,8 @@ public class GamePlayer {
                         currentBoard.unfreeze();
                         if(turn % 2 != (index.getStartGame().getStartingPlayer() % 2)) {
                             currentBoard.clearUsed();
+                            playerOneHero.setUsed(false);
+                            playerTwoHero.setUsed(false);
                             manaPlayerOne += increment;
                             manaPlayerTwo += increment;
                             if(increment < 10)
@@ -256,7 +259,7 @@ public class GamePlayer {
                         break;
                     case "useEnvironmentCard":
                         handIdx = command.getHandIdx();
-                        int row = command.getAffectedRow();
+                        row = command.getAffectedRow();
                         String error = "Cannot steal enemy card since the player's row is full.";
                         String error2 = "Cannot steal enemy card since the player's row is full.";
                         outputInterior = objectMapper.createObjectNode();
@@ -585,6 +588,97 @@ public class GamePlayer {
                             playerTwoHero.setHealth(playerTwoHero.getHealth() - card.getAttackDamage());
                         } else {
                             playerOneHero.setHealth(playerOneHero.getHealth() - card.getAttackDamage());
+                        }
+                        break;
+                    case "useHeroAbility":
+                        outputInterior = objectMapper.createObjectNode();
+                        row = command.getAffectedRow();
+                        int manaCurrentPlayer;
+                        if(turn % 2 == 0) {
+                            card = index.getStartGame().getPlayerTwoHero();
+                            manaCurrentPlayer = manaPlayerTwo;
+                            belongsAtt = 2;
+                        } else {
+                            card = index.getStartGame().getPlayerOneHero();
+                            manaCurrentPlayer = manaPlayerOne;
+                            belongsAtt = 1;
+                        }
+                        if(row == 0 || row == 1)
+                            belongsDef = 2;
+                        else
+                            belongsDef = 1;
+                        if(card.getMana() > manaCurrentPlayer) {
+                            outputInterior.put("affectedRow", row);
+                            outputInterior.put("command", command.getCommand());
+                            outputInterior.put("error", "Not enough mana to use hero's ability.");
+                            output.add(outputInterior);
+                            break;
+                        } else if(card.isUsed()) {
+                            outputInterior.put("affectedRow", row);
+                            outputInterior.put("command", command.getCommand());
+                            outputInterior.put("error", "Hero has already attacked this turn.");
+                            output.add(outputInterior);
+                            break;
+                        } else if(card.getName().equals("Lord Royce") && belongsDef == belongsAtt) {
+                            outputInterior.put("affectedRow", row);
+                            outputInterior.put("command", command.getCommand());
+                            outputInterior.put("error", "Selected row does not belong to the enemy.");
+                            output.add(outputInterior);
+                            break;
+                        } else if(card.getName().equals("Empress Thorina") && belongsDef == belongsAtt) {
+                            outputInterior.put("affectedRow", row);
+                            outputInterior.put("command", command.getCommand());
+                            outputInterior.put("error", "Selected row does not belong to the enemy.");
+                            output.add(outputInterior);
+                            break;
+                        } else if(card.getName().equals("General Kocioraw") && belongsDef != belongsAtt) {
+                            outputInterior.put("affectedRow", row);
+                            outputInterior.put("command", command.getCommand());
+                            outputInterior.put("error",
+                                    "Selected row does not belong to the current player.");
+                            output.add(outputInterior);
+                            break;
+                        } else if(card.getName().equals("King Mudface") && belongsDef != belongsAtt) {
+                            outputInterior.put("affectedRow", row);
+                            outputInterior.put("command", command.getCommand());
+                            outputInterior.put("error",
+                                    "Selected row does not belong to the current player.");
+                            output.add(outputInterior);
+                            break;
+                        }
+                        if(currentBoard.getPlayedCards()[row].size() < 1)
+                            break;
+                        switch (card.getName()) {
+                            case "Lord Royce":
+                                target = currentBoard.getPlayedCards()[row].get(0);
+                                for(var i : currentBoard.getPlayedCards()[row])
+                                    if(i.getAttackDamage() > target.getAttackDamage())
+                                        target = i;
+                                target.setFrozen(true);
+                                target.setTimeFrozen(2);
+                                break;
+                            case "Empress Thorina":
+                                target = currentBoard.getPlayedCards()[row].get(0);
+                                for(var i : currentBoard.getPlayedCards()[row])
+                                    if(i.getHealth() > target.getHealth())
+                                        target = i;
+                                target.setHealth(0);
+                                break;
+                            case "King Mudface":
+                                for(var i : currentBoard.getPlayedCards()[row])
+                                    i.setHealth(i.getHealth() + 1);
+                                break;
+                            case "General Kocioraw":
+                                for(var i : currentBoard.getPlayedCards()[row])
+                                    i.setAttackDamage(i.getAttackDamage() + 1);
+                                break;
+                        }
+                        if(turn % 2 == 0) {
+                            manaPlayerTwo -= card.getMana();
+                            playerTwoHero.setUsed(true);
+                        } else {
+                            manaPlayerOne -= card.getMana();
+                            playerOneHero.setUsed(true);
                         }
                         break;
                     default:

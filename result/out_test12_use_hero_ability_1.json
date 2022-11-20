@@ -30,11 +30,11 @@
   "output" : 2
 }, {
   "command" : "getPlayerMana",
-  "output" : 8,
+  "output" : 6,
   "playerIdx" : 2
 }, {
   "command" : "getPlayerMana",
-  "output" : 7,
+  "output" : 6,
   "playerIdx" : 1
 }, {
   "command" : "getCardsOnTable",
@@ -54,14 +54,14 @@
     "name" : "The Ripper"
   } ], [ ], [ {
     "mana" : 1,
-    "attackDamage" : 0,
+    "attackDamage" : 1,
     "health" : 1,
     "description" : "Standard card: Thrown from the highest cliff, revenge will be his glory.",
     "colors" : [ "Pink", "Purple" ],
     "name" : "The Cursed One"
   }, {
     "mana" : 2,
-    "attackDamage" : 0,
+    "attackDamage" : 1,
     "health" : 1,
     "description" : "Standard card: Thrown from the highest cliff, revenge will be his glory.",
     "colors" : [ "Black", "White", "Red" ],
