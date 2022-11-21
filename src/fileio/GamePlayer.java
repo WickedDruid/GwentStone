@@ -21,7 +21,10 @@ import java.util.Random;
 
 public class GamePlayer {
     public static ArrayNode gameStart(Input inputData, ArrayNode output, ObjectMapper objectMapper) {
+        int totalGames = 0, playerOneWins = 0, playerTwoWins = 0;
         for(var index : inputData.getGames()) {
+            inputData.getPlayerOneDecks().clearCards();
+            inputData.getPlayerTwoDecks().clearCards();
             board currentBoard = new board();
             int manaPlayerOne = 1, manaPlayerTwo = 1;
             int increment = 2;
@@ -43,8 +46,6 @@ public class GamePlayer {
             Collections.shuffle(inputData.getPlayerOneDecks().getDecks().get(playerOneIdx), rand);
             rand = new Random(index.getStartGame().getShuffleSeed());
             Collections.shuffle(inputData.getPlayerTwoDecks().getDecks().get(playerTwoIdx), rand);
-            inputData.getPlayerOneDecks().clearCards();
-            inputData.getPlayerTwoDecks().clearCards();
             hands currentHands = new hands(inputData, playerOneIdx, playerTwoIdx);
             inputData.getPlayerOneDecks().getDecks().get(playerOneIdx).remove(0);
             inputData.getPlayerTwoDecks().getDecks().get(playerTwoIdx).remove(0);
@@ -681,17 +682,39 @@ public class GamePlayer {
                             playerOneHero.setUsed(true);
                         }
                         break;
+                    case "getTotalGamesPlayed":
+                        outputInterior = objectMapper.createObjectNode();
+                        outputInterior.put("command", "getTotalGamesPlayed");
+                        outputInterior.put("output", totalGames);
+                        output.add(outputInterior);
+                        break;
+                    case "getPlayerOneWins":
+                        outputInterior = objectMapper.createObjectNode();
+                        outputInterior.put("command", "getPlayerOneWins");
+                        outputInterior.put("output", playerOneWins);
+                        output.add(outputInterior);
+                        break;
+                    case "getPlayerTwoWins":
+                        outputInterior = objectMapper.createObjectNode();
+                        outputInterior.put("command", "getPlayerTwoWins");
+                        outputInterior.put("output", playerTwoWins);
+                        output.add(outputInterior);
+                        break;
                     default:
                         break;
                 }
                 if(playerOneHero.getHealth() < 1 && !gameEnded) {
                     outputInterior = objectMapper.createObjectNode();
                     outputInterior.put("gameEnded", "Player two killed the enemy hero.");
+                    playerTwoWins++;
+                    totalGames++;
                     output.add(outputInterior);
                     gameEnded = true;
                 } else if(playerTwoHero.getHealth() < 1 && !gameEnded){
                     outputInterior = objectMapper.createObjectNode();
                     outputInterior.put("gameEnded", "Player one killed the enemy hero.");
+                    playerOneWins++;
+                    totalGames++;
                     output.add(outputInterior);
                     gameEnded = true;
                 }

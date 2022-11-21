@@ -312,4 +312,13 @@
     "colors" : [ "Red", "White", "Grey" ],
     "name" : "Heart Hound"
   } ]
+}, {
+  "command" : "getPlayerOneWins",
+  "output" : 1
+}, {
+  "command" : "getPlayerTwoWins",
+  "output" : 1
+}, {
+  "command" : "getTotalGamesPlayed",
+  "output" : 2
 } ]
