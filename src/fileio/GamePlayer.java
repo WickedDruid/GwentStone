@@ -21,6 +21,7 @@ import java.util.Random;
 
 public class GamePlayer {
     public static ArrayNode gameStart(Input inputData, ArrayNode output, ObjectMapper objectMapper) {
+        //the "main" class of my implementation
         int totalGames = 0, playerOneWins = 0, playerTwoWins = 0;
         for(var index : inputData.getGames()) {
             inputData.getPlayerOneDecks().clearCards();
@@ -53,7 +54,9 @@ public class GamePlayer {
             for(var command : index.getActions()) {
                 currentBoard.checkKilled();
                 switch (command.getCommand()) {
+                    //has a case for each command
                     case "getPlayerDeck":
+                        //adds to the output the deck of a specified player
                         outputInterior = objectMapper.createObjectNode();
                         ArrayNode deckJson = objectMapper.createArrayNode();
                         ArrayList<CardInput> currentDeck;
@@ -72,6 +75,7 @@ public class GamePlayer {
                         output.add(outputInterior);
                         break;
                     case "getPlayerHero":
+                        //adds to the output the hero of a specified player
                         outputInterior = objectMapper.createObjectNode();
                         outputInterior.put("command", command.getCommand());
                         outputInterior.put("playerIdx", command.getPlayerIdx());
@@ -85,6 +89,7 @@ public class GamePlayer {
                         output.add(outputInterior);
                         break;
                     case "getPlayerTurn":
+                        //adds to the output who's turn it is
                         outputInterior = objectMapper.createObjectNode();
                         outputInterior.put("command", command.getCommand());
                         if (turn % 2 == 0)
@@ -94,6 +99,7 @@ public class GamePlayer {
                         output.add(outputInterior);
                         break;
                     case "getPlayerMana":
+                        //adds to the output the mana of the specified player
                         outputInterior = objectMapper.createObjectNode();
                         outputInterior.put("command", command.getCommand());
                         if(command.getPlayerIdx() == 2) {
@@ -105,6 +111,7 @@ public class GamePlayer {
                         output.add(outputInterior);
                         break;
                     case "endPlayerTurn":
+                        //ends the turn for the current player
                         currentBoard.unfreeze();
                         if(turn % 2 != (index.getStartGame().getStartingPlayer() % 2)) {
                             currentBoard.clearUsed();
@@ -140,6 +147,7 @@ public class GamePlayer {
                         turn++;
                         break;
                     case "placeCard":
+                        //places a card from the playing player on the board or adds to the output an error
                         handIdx = command.getHandIdx();
                         if(turn % 2 == 0) {
                             if (handIdx < currentHands.getPlayerTwoHand().size())
@@ -192,6 +200,7 @@ public class GamePlayer {
                         }
                         break;
                     case "getCardsInHand":
+                        //adds to the output the hand of a specified player
                         outputInterior = objectMapper.createObjectNode();
                         outputInterior.put("command", command.getCommand());
                         outputInterior.put("playerIdx", command.getPlayerIdx());
@@ -210,6 +219,7 @@ public class GamePlayer {
                         output.add(outputInterior);
                         break;
                     case "getCardsOnTable":
+                        //adds to the output the cards present on the board
                         ArrayList<CardInput>[] cards = currentBoard.getPlayedCards();
                         outputInterior = objectMapper.createObjectNode();
                         ArrayNode outputArray = objectMapper.createArrayNode();
@@ -227,6 +237,7 @@ public class GamePlayer {
                         output.add(outputInterior);
                         break;
                     case "getCardAtPosition":
+                        //adds to the output the card at a specified position
                         ObjectNode desiredCard = objectMapper.createObjectNode();
                         int x = command.getX();
                         int y = command.getY();
@@ -242,6 +253,7 @@ public class GamePlayer {
                         output.add(outputInterior);
                         break;
                     case "getEnvironmentCardsInHand":
+                        //adds to the output all the environment cards in the hand of a specified player
                         outputInterior = objectMapper.createObjectNode();
                         ArrayNode cardsArray = objectMapper.createArrayNode();
                         outputInterior.put("command", command.getCommand());
@@ -259,6 +271,7 @@ public class GamePlayer {
                         output.add(outputInterior);
                         break;
                     case "useEnvironmentCard":
+                        //uses a environment card or adds to the output an error
                         handIdx = command.getHandIdx();
                         row = command.getAffectedRow();
                         String error = "Cannot steal enemy card since the player's row is full.";
@@ -375,6 +388,7 @@ public class GamePlayer {
                         }
                         break;
                     case "getFrozenCardsOnTable":
+                        //adds to the output all frozen cards on the table
                         outputInterior = objectMapper.createObjectNode();
                         outputInterior.put("command", command.getCommand());
                         ArrayNode frozenArray = objectMapper.createArrayNode();
@@ -384,6 +398,7 @@ public class GamePlayer {
                         output.add(outputInterior);
                         break;
                     case "cardUsesAttack":
+                        //uses the attack of a card or adds to the output and error
                         xdef = command.getCardAttacked().getX();
                         ydef = command.getCardAttacked().getY();
                         xatt = command.getCardAttacker().getX();
@@ -457,6 +472,7 @@ public class GamePlayer {
                         }
                         break;
                     case "cardUsesAbility":
+                        //uses the ability of a card or adds to the output and error
                         xdef = command.getCardAttacked().getX();
                         ydef = command.getCardAttacked().getY();
                         xatt = command.getCardAttacker().getX();
@@ -543,6 +559,7 @@ public class GamePlayer {
                         }
                         break;
                     case "useAttackHero":
+                        //uses the attack of a hero or adds to the output a error
                         outputInterior = objectMapper.createObjectNode();
                         xatt = command.getCardAttacker().getX();
                         yatt = command.getCardAttacker().getY();
@@ -592,6 +609,7 @@ public class GamePlayer {
                         }
                         break;
                     case "useHeroAbility":
+                        //uses the hero's ability or adds to the output and error
                         outputInterior = objectMapper.createObjectNode();
                         row = command.getAffectedRow();
                         int manaCurrentPlayer;
@@ -683,18 +701,21 @@ public class GamePlayer {
                         }
                         break;
                     case "getTotalGamesPlayed":
+                        //adds to the output the total of games played
                         outputInterior = objectMapper.createObjectNode();
                         outputInterior.put("command", "getTotalGamesPlayed");
                         outputInterior.put("output", totalGames);
                         output.add(outputInterior);
                         break;
                     case "getPlayerOneWins":
+                        //adds to the output the wins of the first player
                         outputInterior = objectMapper.createObjectNode();
                         outputInterior.put("command", "getPlayerOneWins");
                         outputInterior.put("output", playerOneWins);
                         output.add(outputInterior);
                         break;
                     case "getPlayerTwoWins":
+                        //adds to the output hte wins of the second player
                         outputInterior = objectMapper.createObjectNode();
                         outputInterior.put("command", "getPlayerTwoWins");
                         outputInterior.put("output", playerTwoWins);
@@ -703,6 +724,7 @@ public class GamePlayer {
                     default:
                         break;
                 }
+                //checks if the game has ended
                 if(playerOneHero.getHealth() < 1 && !gameEnded) {
                     outputInterior = objectMapper.createObjectNode();
                     outputInterior.put("gameEnded", "Player two killed the enemy hero.");

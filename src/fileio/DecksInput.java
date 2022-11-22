@@ -11,6 +11,7 @@ public final class DecksInput {
     }
 
     public void clearCards() {
+        //resets the cards for a new round to start
         for(var i : decks) {
             for(var j : i) {
                 j.setUsed(false);

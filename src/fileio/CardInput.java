@@ -24,6 +24,7 @@ public final class CardInput {
     }
 
     public ObjectNode getJson(ObjectMapper objectmapper, CardInput card) {
+        //returns the card object in json form using jackson
         String type = getType(card);
         ObjectNode file = objectmapper.createObjectNode();
         file.put("mana", this.mana);
@@ -40,6 +41,7 @@ public final class CardInput {
         return file;
     }
     public String getType(CardInput card) {
+        //returns what type the card is, if it's a tank and in which row it's supposed to go
         switch (card.name) {
             case "Sentinel":
                 return "minionback";
