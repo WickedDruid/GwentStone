@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="06485ca5-23f3-416e-b6aa-3da15c51ea34" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/checkstyle_8_36_2_all.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GwentStone.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/checkstyle.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test01_game_start.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test02_place_card.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test03_place_card_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test04_use_environment_card.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test05_use_environment_card_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test06_attack_card.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test07_attack_card_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test08_use_card_ability.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test09_use_card_ability_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test10_attack_hero.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test11_attack_hero_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test12_use_hero_ability_1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test13_use_hero_ability_2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test14_use_hero_ability_1_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test15_use_hero_ability_2_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test16_multiple_games_valid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test17_multiple_games_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test18_big_game.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/jackson-annotations-2.13.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/jackson-core-2.13.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/jackson-databind-2.13.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/lombok.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/checker/Checker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/checker/CheckerConstants.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/checker/Checkstyle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/checker/checkstyle-8.36.2-all.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/checker/checkstyle.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/checker/poo_checks.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/fileio/ActionsInput.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/fileio/CardInput.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/fileio/Coordinates.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/fileio/DecksInput.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/fileio/GameInput.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/fileio/GamePlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/fileio/Input.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/fileio/StartGameInput.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/fileio/board.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/fileio/hands.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/main/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GwentStone/main/Test.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test01_game_start.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test02_place_card.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test03_place_card_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test04_use_environment_card.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test05_use_environment_card_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test06_attack_card.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test07_attack_card_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test08_use_card_ability.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test09_use_card_ability_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test10_attack_hero.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test11_attack_hero_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test12_use_hero_ability_1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test13_use_hero_ability_2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test14_use_hero_ability_1_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test15_use_hero_ability_2_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test16_multiple_games_valid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test17_multiple_games_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/ref_test18_big_game.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test01_game_start.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test02_place_card.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test03_place_card_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test04_use_environment_card.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test05_use_environment_card_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test06_attack_card.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test07_attack_card_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test08_use_card_ability.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test09_use_card_ability_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test10_attack_hero.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test11_attack_hero_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test12_use_hero_ability_1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test13_use_hero_ability_2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test14_use_hero_ability_1_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test15_use_hero_ability_2_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test16_multiple_games_valid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test17_multiple_games_invalid.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result/out_test18_big_game.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tema.iml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2HSwogKZrULIkNXNdDjJXqcyqls" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/cube/Documents/GitHub/GwentStone&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="06485ca5-23f3-416e-b6aa-3da15c51ea34" name="Changes" comment="" />
+      <created>1668291968834</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1668291968834</updated>
+      <workItem from="1668291970575" duration="9731000" />
+      <workItem from="1668356200456" duration="15262000" />
+      <workItem from="1668500888855" duration="27797000" />
+      <workItem from="1668551203594" duration="46681000" />
+      <workItem from="1668860780676" duration="37140000" />
+      <workItem from="1669055867313" duration="4302000" />
+      <workItem from="1669065978904" duration="14238000" />
+      <workItem from="1669127999088" duration="4107000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.io.CharConversionException" package="java.io" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

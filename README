@@ -1,0 +1,99 @@
+GwentStone
+
+   I have 3 main classes: GamePlayer, hands and board. GamePlayer is the main
+part of the implementation.
+
+hands:
+   The constructor initializes the hand araylist for each player and gives each
+one the starting card by adding the card to an arraylist (each player has their
+own arraylist of cards).
+   addPlayerOneHand adds a cardInput that is given as a parameter to the
+arraylist that holds the cards of the first players hand.
+   addPlayerTwoHand has the same functionality as addPlayerOneHand but the
+difference is it adds the card to the second players hand.
+
+board:
+   The constructor initializes the arraylist that is used to store the cards
+on the board.
+   boardAdd adds a card to the board by identifying in which row it's supposed
+to go by using the getType method from it and by using the playerIdx parameter
+to place it on either row 0/1 or 2/3.
+   clearUsed resets the boolen used variable of each card and is used when
+a new round starts so that the cards on the board may attack again.
+   playFirestorm traverses a specified row to and removes 1 point of health
+from each card on that row.
+   playWinterfell traverses all the cards in a specified row and freezes them
+by setting their frozen boolean to true and adding 2 to the timeFrozen variable.   unfreezen checks if a card in the frozenCards arraylist is needed to be
+frozen by getting the timeFrozen boolean of that card and if it's 0, it means
+the turns have past so the card is infrozen and if timeFrozen is bigger than 0,
+it removes 1 indicating that a turn has passed.
+   playHeartHound traverses the specified row and adds the card with the biggesthealth to the opposite player and then removes it from the original row.
+   checkKilled traverses the arraylist and removes and cards that have their
+health 0 or below and also removes them from the frozenCards array if necessary
+   getPosition returns the json object of a card from the specified position
+   checkTank traverses the board with 2 cases, each player has his own and then
+identifies if that player has tanks on the board and if so if the card
+given as a parameter is one of the tanks.
+   checkAvailability cehcks if a specified card can be added without nay errors
+such as not having enough space on a row and not being a placeable card.
+
+GamePlayer:
+   Here I have 1 class that is used to play the game.
+   gameStart returns and Arraynode that is used to store the array of commands
+and outputs/errors and parameters. In the beginning I have a for loop that
+traverses each game and later gets all needed inputs for the game to start
+such as the deck id and hero of each player. I also initialize a tone of
+variables that are later used in a switch. I use the rand variable to randomise the deck for each player. AfterwardsI have another for loop that traverses all
+the commands for the current game. At the start of the for I run the
+checKilled method on the board to remove any cards that need to be removed and
+a switch that has a case for each command possible. The commands and how they
+work are explained below.
+   getPlayerDeck firstly assigns the deck neede to be add to the output to
+currentDeck so it can be used more easily after. Afterwards I use a for to
+get the json of each card in the deck and add it to the object node
+outputInterior that is then added to the actual output. I use this hierarchy
+in most of the cases and so I explain it once here.
+   getPlayerHero gets the json of the needed player and then adds in to the
+output.
+   getPlayerTurn finds out who's turn it is by getting the modulo of the turn
+variable and then adds that to the output.
+   getPlayerMana finds out which player's mana it needs to show and adds it
+to the output.
+   endPlayerTurn adds mana to each player, increments the mana so it gets added
+more and more every round and resets the cards so they can use their
+abilities/attacks again when a new round starts. It also adds a card to each
+players hand if they have anymore.
+   placeCard detects who's turn it is and gets the card it needs to place. It
+also looks for any errors and adds them to the output if they exist and also
+removes the used mana from the player.
+   getCardsInHand identifies which hand is needed and then has a for loop
+to add to the output the json of each card in the arraylist of hand.
+   getCardsOntable traverse the board and adds to the output the json for
+each card so taht it can later be added to output.
+   getCardAtPosition calls the getPosition method from the board and checks if
+there is a card there, if not it outputs a error otherwise it outputs the card.
+   useEnvironmentCard identifies on which row the card wants to attack, the
+players mana and other errors. If it passes the checks, it calls the needed
+function from the board and gives it a row to target. This also has a case
+specific on the player that executes the command.
+   getFrozenCardsOnTable traverses the array of frozen cards from the board
+and adds them to the output.
+   cardusesAttack is the same as useEnvironmentCard but the differences are thatit has more errors thus more checks and instead of targeting a row it targets
+a card and also sets the cards used boolean to true so that it can't be used
+again in that round.
+   cardusesAbility is the same as useEnvironmentCard but the abilities differ
+and this also uses the used boolean so that the card cant be used anymore in
+that round.
+   useAttackhero identifies which attack it has to do for each hero, checks for
+errors and if there aren't any it uses the heroes attack on a card.
+   useHeroAbility same as the above case but it uses the ability on a row.
+   getTotalGamesPlayed adds to the output the totalGames variable that
+stores how many games have been played.
+   getPlayerOneWins and getPlayerTwoWins adds to the output the wins of the
+specific player by remembering them in a different variable.
+   At the end of the switch I have a if that checks if any player has the healthbelow 1 which idicates the other one has won and adds to the wins of that playerand the total games played.
+
+   In the CardInput class I added the getJson and getType class:
+   gettype uses a switch to return all needed string that describe a card.
+   getjson creates an object node with the cards needed stats using the getType
+method to identify which stats need to be put in the objectNode.
