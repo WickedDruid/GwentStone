@@ -20,10 +20,16 @@ import java.util.Objects;
 import java.util.Random;
 
 public class GamePlayer {
-    public static ArrayNode gameStart(Input inputData, ArrayNode output, ObjectMapper objectMapper) {
+    public static ArrayNode gameStart(Input inputData, ArrayNode output, ObjectMapper objectMapper ,String inpFile) {
         //the "main" class of my implementation
         int totalGames = 0, playerOneWins = 0, playerTwoWins = 0;
         for(var index : inputData.getGames()) {
+            try {
+                inputData = objectMapper.readValue(new File(CheckerConstants.TESTS_PATH + inpFile), Input.class);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
             inputData.getPlayerOneDecks().clearCards();
             inputData.getPlayerTwoDecks().clearCards();
             board currentBoard = new board();
@@ -48,8 +54,8 @@ public class GamePlayer {
             rand = new Random(index.getStartGame().getShuffleSeed());
             Collections.shuffle(inputData.getPlayerTwoDecks().getDecks().get(playerTwoIdx), rand);
             hands currentHands = new hands(inputData, playerOneIdx, playerTwoIdx);
-            inputData.getPlayerOneDecks().getDecks().get(playerOneIdx).remove(0);
-            inputData.getPlayerTwoDecks().getDecks().get(playerTwoIdx).remove(0);
+            inputData.getPlayerOneDecks().getDecks().get(playerOneIdx).get(0).setPlayed(true);
+            inputData.getPlayerTwoDecks().getDecks().get(playerTwoIdx).get(0).setPlayed(true);
             ObjectNode outputInterior = objectMapper.createObjectNode();
             for(var command : index.getActions()) {
                 currentBoard.checkKilled();

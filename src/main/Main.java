@@ -69,7 +69,7 @@ public final class Main {
                 Input.class);
 
         ArrayNode output = objectMapper.createArrayNode();
-        output = GamePlayer.gameStart(inputData, output, objectMapper);
+        output = GamePlayer.gameStart(inputData, output, objectMapper, filePath1);
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePath2), output);

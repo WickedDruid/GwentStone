@@ -196,8 +196,8 @@
   "y" : 0,
   "output" : {
     "mana" : 1,
-    "attackDamage" : 7,
-    "health" : 5,
+    "attackDamage" : 5,
+    "health" : 7,
     "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden"
@@ -216,7 +216,14 @@
   "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
-  "output" : "No card available at that position."
+  "output" : {
+    "mana" : 2,
+    "attackDamage" : 0,
+    "health" : 1,
+    "description" : "Premium card: Nobody suspects an outcast, not even the Gods.",
+    "colors" : [ "Pink", "Purple" ],
+    "name" : "The Cursed One"
+  }
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -226,8 +233,8 @@
   "y" : 0,
   "output" : {
     "mana" : 1,
-    "attackDamage" : 7,
-    "health" : 5,
+    "attackDamage" : 5,
+    "health" : 7,
     "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden"
@@ -251,24 +258,24 @@
   "playerIdx" : 2
 }, {
   "command" : "getCardsOnTable",
-  "output" : [ [ ], [ {
+  "output" : [ [ {
     "mana" : 2,
-    "attackDamage" : 5,
-    "health" : 4,
-    "description" : "Premium card: Insanity is always an option, now it is an absolute.",
-    "colors" : [ "Red", "Black" ],
-    "name" : "Miraj"
+    "attackDamage" : 0,
+    "health" : 1,
+    "description" : "Premium card: Nobody suspects an outcast, not even the Gods.",
+    "colors" : [ "Pink", "Purple" ],
+    "name" : "The Cursed One"
   }, {
     "mana" : 2,
     "attackDamage" : 5,
-    "health" : 4,
-    "description" : "Standard card: When he is near, close your eyes. They betray your mind.",
-    "colors" : [ "Yellow", "Orange", "Red" ],
-    "name" : "Miraj"
-  } ], [ {
+    "health" : 1,
+    "description" : "Standard card: A drink can always be served, with the blood of his enemies.",
+    "colors" : [ "Red", "Blue", "Pink" ],
+    "name" : "Berserker"
+  } ], [ ], [ {
     "mana" : 1,
-    "attackDamage" : 7,
-    "health" : 5,
+    "attackDamage" : 5,
+    "health" : 7,
     "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden"
@@ -308,9 +315,11 @@
     "name" : "Firestorm"
   }, {
     "mana" : 2,
-    "description" : "Premium card: Your mind is ours. Your body is ours. Stop begging.",
-    "colors" : [ "Red", "White", "Grey" ],
-    "name" : "Heart Hound"
+    "attackDamage" : 5,
+    "health" : 3,
+    "description" : "Standard card: Trained by the best, nothing will catch him off-guard.",
+    "colors" : [ "Black", "White" ],
+    "name" : "Sentinel"
   } ]
 }, {
   "command" : "getPlayerOneWins",

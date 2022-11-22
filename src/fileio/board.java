@@ -15,8 +15,11 @@ public class board {
         for(int i = 0; i < 4; i++)
             playedCards[i] = new ArrayList<CardInput>();
     }
-    public void boardAdd(int playerIdx, CardInput card) {
+
+    public void boardAdd(int playerIdx, CardInput oldCard) {
         //adds a card to a row depending on which player owns it and if it's supposed to go in the front/back row
+        CardInput card = new CardInput();
+        card.cloneCard(oldCard);
         String type = card.getType(card);
         if(playerIdx == 1) {
             if(type.contains("front"))

@@ -22,7 +22,17 @@ public final class CardInput {
 
     public CardInput() {
     }
-
+    public void cloneCard(CardInput oldCard) {
+        this.mana = oldCard.getMana();
+        this.attackDamage = oldCard.getAttackDamage();
+        this.health = oldCard.getHealth();
+        this.description = oldCard.getDescription();
+        this.colors = oldCard.getColors();
+        this.name = oldCard.getName();
+        this.frozen = false;
+        this.used = false;
+        this.played = false;
+    }
     public ObjectNode getJson(ObjectMapper objectmapper, CardInput card) {
         //returns the card object in json form using jackson
         String type = getType(card);

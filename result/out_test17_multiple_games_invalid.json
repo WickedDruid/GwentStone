@@ -154,7 +154,12 @@
 }, {
   "command" : "getEnvironmentCardsInHand",
   "playerIdx" : 2,
-  "output" : [ ]
+  "output" : [ {
+    "mana" : 2,
+    "description" : "Premium card: Your mind is ours. Your body is ours. Stop begging.",
+    "colors" : [ "Green", "Black" ],
+    "name" : "Heart Hound"
+  } ]
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -172,7 +177,14 @@
   "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
-  "output" : "No card available at that position."
+  "output" : {
+    "mana" : 1,
+    "attackDamage" : 5,
+    "health" : 4,
+    "description" : "Standard card: When he is near, close your eyes. They betray your mind.",
+    "colors" : [ "Yellow", "Orange", "Red" ],
+    "name" : "Miraj"
+  }
 }, {
   "command" : "getPlayerMana",
   "output" : 3,
@@ -186,7 +198,12 @@
 }, {
   "command" : "getEnvironmentCardsInHand",
   "playerIdx" : 2,
-  "output" : [ ]
+  "output" : [ {
+    "mana" : 2,
+    "description" : "Premium card: Your mind is ours. Your body is ours. Stop begging.",
+    "colors" : [ "Green", "Black" ],
+    "name" : "Heart Hound"
+  } ]
 }, {
   "command" : "getCardAtPosition",
   "x" : 2,
@@ -194,7 +211,7 @@
   "output" : {
     "mana" : 2,
     "attackDamage" : 7,
-    "health" : 6,
+    "health" : 1,
     "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden"
@@ -209,10 +226,22 @@
 }, {
   "command" : "getEnvironmentCardsInHand",
   "playerIdx" : 2,
-  "output" : [ ]
+  "output" : [ {
+    "mana" : 2,
+    "description" : "Premium card: Your mind is ours. Your body is ours. Stop begging.",
+    "colors" : [ "Green", "Black" ],
+    "name" : "Heart Hound"
+  } ]
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
+}, {
+  "command" : "useAttackHero",
+  "cardAttacker" : {
+    "x" : 1,
+    "y" : 1
+  },
+  "error" : "Attacked card is not of type 'Tank'."
 }, {
   "command" : "getCardAtPosition",
   "x" : 2,
@@ -220,7 +249,7 @@
   "output" : {
     "mana" : 2,
     "attackDamage" : 7,
-    "health" : 6,
+    "health" : 1,
     "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden"
@@ -239,15 +268,20 @@
 }, {
   "command" : "getEnvironmentCardsInHand",
   "playerIdx" : 2,
-  "output" : [ ]
+  "output" : [ {
+    "mana" : 2,
+    "description" : "Premium card: Your mind is ours. Your body is ours. Stop begging.",
+    "colors" : [ "Green", "Black" ],
+    "name" : "Heart Hound"
+  } ]
 }, {
   "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
     "mana" : 2,
-    "attackDamage" : 7,
-    "health" : 6,
+    "attackDamage" : 5,
+    "health" : 1,
     "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden"
@@ -257,13 +291,6 @@
 }, {
   "command" : "getCardsOnTable",
   "output" : [ [ {
-    "mana" : 1,
-    "attackDamage" : 0,
-    "health" : 1,
-    "description" : "Standard card: Thrown from the highest cliff, revenge will be his glory.",
-    "colors" : [ "Pink", "Purple" ],
-    "name" : "The Cursed One"
-  }, {
     "mana" : 2,
     "attackDamage" : 0,
     "health" : 3,
@@ -273,14 +300,21 @@
   } ], [ {
     "mana" : 1,
     "attackDamage" : 5,
-    "health" : 4,
+    "health" : 3,
     "description" : "Standard card: When he is near, close your eyes. They betray your mind.",
     "colors" : [ "Yellow", "Orange", "Red" ],
     "name" : "Miraj"
+  }, {
+    "mana" : 2,
+    "attackDamage" : 6,
+    "health" : 3,
+    "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
+    "colors" : [ "Orange", "Red", "Black" ],
+    "name" : "The Ripper"
   } ], [ {
     "mana" : 2,
-    "attackDamage" : 7,
-    "health" : 6,
+    "attackDamage" : 5,
+    "health" : 1,
     "description" : "Standard card: He has seen everything, his mind has never been asleep since the making of the realm.",
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden"
@@ -313,11 +347,9 @@
   "playerIdx" : 2,
   "output" : [ {
     "mana" : 2,
-    "attackDamage" : 6,
-    "health" : 3,
-    "description" : "Standard card: Death incarnate. No better time to die than now.",
-    "colors" : [ "Orange", "Red", "Black" ],
-    "name" : "The Ripper"
+    "description" : "Premium card: Your mind is ours. Your body is ours. Stop begging.",
+    "colors" : [ "Green", "Black" ],
+    "name" : "Heart Hound"
   } ]
 }, {
   "command" : "getTotalGamesPlayed",
